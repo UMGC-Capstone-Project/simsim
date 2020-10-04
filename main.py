@@ -122,8 +122,13 @@ def user():
 
 @app.route('/view')
 def view():
-    # only for diagnostics purposes. This page will show the entire user_list db.
-    return render_template('view.html', values=user_list.query.all())
+
+        if 'user' in session and session['user'] == 'admin':
+            # only for diagnostics purposes. This page will show the entire user_list db.
+            return render_template('view.html', values=user_list.query.all())
+        else:
+            return redirect(url_for('login'))
+
 
 
 @app.route('/logout')
