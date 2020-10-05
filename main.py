@@ -142,5 +142,11 @@ def logout():
     return redirect(url_for('login'))
 
 
+# Following function will handle any 404 calls
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('error.html'), 404
+
 db.create_all()
 app.run(host='127.0.0.1', port=8080)
