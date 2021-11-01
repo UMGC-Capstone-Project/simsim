@@ -1,13 +1,18 @@
-from flask import Flask, redirect, url_for, render_template, request, session, flash
 from datetime import timedelta
+
+from flask import (Flask, flash, redirect, render_template, request, session,
+                   url_for)
 from flask_sqlalchemy import SQLAlchemy
 from passlib.hash import sha256_crypt
 
 app = Flask(__name__)
+
 # one time secret key for sessions
-app.secret_key = 'cnG*DS8@wFZNly95F5d#'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+# app.secret_key = 'cnG*DS8@wFZNly95F5d#'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
+# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+app.config.from_object('config.DevelopmentConfig')
 
 # Set the default life of a session
 # once ready set the following to 15 minutes
@@ -149,4 +154,12 @@ def page_not_found(e):
     return render_template('error.html'), 404
 
 db.create_all()
-app.run(host='127.0.0.1', port=8080)
+
+
+def main():
+    app.run(host='0.0.0.0', port=8080)
+
+
+if __name__ == "__main__":
+    main()
+
